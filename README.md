@@ -39,5 +39,14 @@ uv init
 uv add "fastapi[standard]" 
 .\.venv\Scripts\activate
 uv add uvicorn
+uv add groq
+uv add ruff
+    ruff format
+    ruff check
+
+
+
+
+
 uvicorn main:app --reload
 ```
