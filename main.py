@@ -3,12 +3,34 @@ from fastapi import HTTPException, Depends
 from fastapi import status
 from fastapi import FastAPI, File, UploadFile
 from pydantic import BaseModel, Field
+import logging
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s -(levelname)s - %(message)s')
+logger = logging.getLogger("fastapi")
+#logger.info('Mensagem informativa')
+#logger.warning('Mensagem de alerta')
+#logger.error('Mensagem de erro')
+#logger.critical('Mensagem crítica')
+#logger.debug('Mensagem de debug')
+#logger.exception('Mensagem de exceção')
+#logger.fatal('Mensagem de erro fatal')
+
+
+
 
 API_TOKEN = "123"
 
 def common_api_token(api_token: str):
+    logger.info('Token recebido: %s', api_token)
+    #print("O token recebido foi: ", api_token)
+
     if api_token != API_TOKEN:
+        logger.warning('Token de autenticação inválido: %s', api_token)
+        #print("Token de autenticação inválido")
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token inválido")
+
+    logger.info('Token de autenticação válido: %s', api_token)
+    #print("Token de autenticação válido")  
     return {"api_token": api_token}
 
 app = FastAPI(
